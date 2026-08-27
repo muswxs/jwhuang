@@ -1,6 +1,8 @@
 import type { Block, CaseStudy } from "@/data/cases";
 import { cn } from "@/lib/cn";
 
+type StudyView = CaseStudy & { variant?: "revise" };
+
 function Meta({ study }: { study: CaseStudy }) {
   const items = [
     ["Product", study.meta.product],
@@ -160,7 +162,7 @@ function BlockView({
   }
 }
 
-export function CaseStudyView({ study }: { study: CaseStudy }) {
+export function CaseStudyView({ study }: { study: StudyView }) {
   const revise = study.variant === "revise";
 
   return (
@@ -194,7 +196,7 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
                 href={l.href}
                 target={internal ? undefined : "_blank"}
                 rel={internal ? undefined : "noreferrer"}
-                className="font-nav text-nav tracking-nav text-ink transition-opacity hover:opacity-70"
+                className="font-nav text-nav tracking-nav text-nav-active transition-opacity hover:opacity-70"
               >
                 {l.label}
               </a>
