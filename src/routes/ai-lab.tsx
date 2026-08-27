@@ -27,7 +27,7 @@ function AiLabPage() {
                   <img
                     src={item.cover}
                     alt={item.title}
-                    className="aspect-video w-full object-cover transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-105"
+                    className="aspect-video w-full origin-center object-cover scale-[1.08] transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-100"
                   />
                 </div>
                 <div className="mt-4 flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
@@ -37,7 +37,7 @@ function AiLabPage() {
                     </h2>
                     <p className="mt-1 max-w-xl text-body text-ink-soft">{item.desc}</p>
                   </div>
-                  <p className="mt-2 font-mono text-meta text-muted md:mt-0">
+                    <p className="mt-2 font-mono text-meta text-muted md:mt-0">
                     {item.url} ↗
                   </p>
                 </div>
