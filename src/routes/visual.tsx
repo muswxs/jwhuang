@@ -12,38 +12,40 @@ export const Route = createFileRoute("/visual")({
 function VisualPage() {
   return (
     <PageShell>
-      <main className="px-5 pb-20 md:px-8">
-        <h1 className="font-display text-title font-bold tracking-tight">Motion</h1>
-        <div className="scroll-x mt-8 flex snap-x gap-6 overflow-x-auto pb-6 md:gap-8">
+      <main className="mx-auto w-full max-w-[86rem] px-6 pb-24 pt-16 md:px-12 lg:px-20">
+        <h1 className="font-sans text-[1.25rem] font-normal leading-snug text-ink md:text-[1.375rem]">
+          Motion
+        </h1>
+        <ul className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-7">
           {VISUAL.map((item) => (
-            <figure
-              key={item.title}
-              className="w-[min(72vw,20rem)] shrink-0 snap-start md:w-80"
-            >
-              <div className="relative aspect-phone overflow-hidden rounded-xl bg-asphalt p-4 shadow-[0_16px_40px_rgba(0,0,0,0.16)]">
-                <div className="relative size-full overflow-hidden rounded-screen">
-                  <img
-                    src={item.still}
-                    alt=""
-                    className="absolute inset-0 size-full object-cover"
-                  />
-                  <video
-                    src={item.video}
-                    poster={item.still}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="absolute inset-0 size-full object-cover"
-                  />
+            <li key={item.title}>
+              <figure>
+                <div className="overflow-hidden rounded-[1.35rem] bg-[#d4d9db]">
+                  <div className="relative aspect-[9/19.5]">
+                    <img
+                      src={item.still}
+                      alt=""
+                      className="absolute inset-0 size-full object-cover"
+                    />
+                    <video
+                      src={item.video}
+                      poster={item.still}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      className="absolute inset-0 size-full object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
-              <figcaption className="mt-3 font-mono text-meta text-ink-soft">
-                {item.title}
-              </figcaption>
-            </figure>
+                <figcaption className="mt-3 font-sans text-[13px] leading-snug text-ink">
+                  {item.title}
+                </figcaption>
+              </figure>
+            </li>
           ))}
-        </div>
+        </ul>
       </main>
     </PageShell>
   );
