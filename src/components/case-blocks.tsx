@@ -194,7 +194,7 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
                 href={l.href}
                 target={internal ? undefined : "_blank"}
                 rel={internal ? undefined : "noreferrer"}
-                className="font-nav text-nav tracking-nav text-nav-active transition-opacity hover:opacity-70"
+                className="font-nav text-nav tracking-nav text-ink transition-opacity hover:opacity-70"
               >
                 {l.label}
               </a>
