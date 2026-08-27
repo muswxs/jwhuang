@@ -9,7 +9,7 @@
   --color-faint: #8a8a8a;
   --color-line: #c4c9cb;
   --color-surface: #f3f5f6;
-  --color-nav-active: #2f6b4a;
+  --color-nav-active: #111111;
   --color-nav-link: #333333;
   --color-menu-bg: #73787d;
   --color-menu-fg: #cccccc;
@@ -112,7 +112,7 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-nav-active) 28%, transparent);
+    background: color-mix(in oklab, var(--color-ink) 18%, transparent);
   }
 }
 
