@@ -116,6 +116,8 @@ function AboutPage() {
           </div>
         </AboutGrid>
 
+        <hr className="mt-20 border-hair" />
+
         <AboutGrid>
           <h2 className="mt-28 font-sans text-about-section font-normal leading-about-head text-ink">
             AWARDS
