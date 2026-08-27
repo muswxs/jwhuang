@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #dce1e3;
+  --color-ink: #111111;
+  --color-ink-soft: #2a2a2a;
+  --color-muted: #5c5c5c;
+  --color-faint: #8a8a8a;
+  --color-line: #c4c9cb;
+  --color-surface: #f3f5f6;
+  --color-nav-active: #2f6b4a;
+  --color-dusk: #c45a1a;
+  --color-asphalt: #1a1a1a;
+
+  --font-nav: "Barlow", "IBM Plex Sans TC", sans-serif;
+  --font-display: "IBM Plex Sans Condensed", "IBM Plex Sans TC", sans-serif;
+  --font-sans: "IBM Plex Sans TC", "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --text-nav: 0.75rem;
+  --text-kicker: 0.75rem;
+  --text-meta: 0.75rem;
+  --text-body: 1rem;
+  --text-lead: 1rem;
+  /* Shared 390→1280 window. All fluid steps lock together. */
+  --fluid-progress: clamp(0, (100vw - 390px) / (1280px - 390px), 1);
+  --text-title: calc(1.5rem + var(--fluid-progress) * 0.5rem);
+  --text-hero: calc(1.75rem + var(--fluid-progress) * 1rem);
+  --text-display: calc(2rem + var(--fluid-progress) * 1rem);
+  --text-home-label: calc(0.8rem + var(--fluid-progress) * 0.2rem);
+  --text-home-line: calc(1.1rem + var(--fluid-progress) * 0.9rem);
+
+  --leading-tight: 1.12;
+  --leading-snug: 1.28;
+  --leading-home: 1.4;
+  --leading-body: 1.7;
+
+  --tracking-nav: 0.04em;
+  --tracking-tight: -0.02em;
+
+  --aspect-portrait: 3 / 4;
+  --aspect-phone: 9 / 19.5;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 32px;
+  --radius-screen: 24px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+  }
+
+  video.home-video {
+    height: 100%;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-nav-active) 28%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes ken {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.rise-in {
+  animation: rise 500ms var(--ease-out) both;
+}
+
+.home-video {
+  animation: ken 18s var(--ease-smooth) alternate infinite;
+}
+
+.scroll-x {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--color-ink) 25%, transparent) transparent;
+}
