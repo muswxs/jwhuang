@@ -41,7 +41,7 @@ export function SiteNav({ overlay = false }: { overlay?: boolean }) {
           "z-40 flex h-[60px] items-center justify-between px-5",
           overlay
             ? "pointer-events-none fixed inset-x-0 top-0"
-            : "sticky top-0 bg-paper",
+            : "sticky top-0 bg-transparent",
         )}
       >
         <nav
