@@ -44,11 +44,11 @@ function WorkIndex() {
                     <img
                       src={item.cover}
                       alt=""
-                      className="aspect-portrait w-full object-cover"
+                      className="aspect-portrait w-full origin-center object-cover scale-[1.08] transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-100"
                     />
                     {video ? (
                       <video
-                        className="pointer-events-none absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500 ease-[var(--ease-out)] group-hover:opacity-100"
+                        className="pointer-events-none absolute inset-0 size-full origin-center object-cover scale-[1.08] opacity-0 transition-[opacity,transform] duration-500 ease-[var(--ease-out)] group-hover:scale-100 group-hover:opacity-100"
                         src={video}
                         muted
                         loop
