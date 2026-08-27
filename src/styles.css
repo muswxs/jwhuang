@@ -20,9 +20,9 @@
   --color-note: #666666;
 
   --font-nav: "Barlow", "IBM Plex Sans TC", sans-serif;
-  --font-display: "IBM Plex Sans Condensed", "IBM Plex Sans TC", sans-serif;
-  --font-sans: "IBM Plex Sans TC", "IBM Plex Sans", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "Barlow", "IBM Plex Sans TC", sans-serif;
+  --font-sans: "Barlow", "IBM Plex Sans TC", sans-serif;
+  --font-mono: "Barlow", "IBM Plex Sans TC", sans-serif;
 
   --text-nav: 0.75rem;
   --text-kicker: 0.75rem;

@@ -31,7 +31,7 @@ export const Route = createRootRoute({
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;1,400&family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Sans+TC:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,700;1,400&family=IBM+Plex+Sans+TC:wght@300;400;500;700&display=swap",
       },
     ],
   }),
