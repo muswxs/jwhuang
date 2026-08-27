@@ -94,6 +94,20 @@ function BlockView({
           <img src={block.src} alt={block.alt} className="block w-full bg-paper" loading="lazy" />
         </div>
       );
+    case "pair":
+      return (
+        <div className="grid items-center gap-6 md:grid-cols-2 md:gap-10">
+          <p className={cn("text-pretty text-lead text-ink-soft", revise ? "max-w-xl" : undefined)}>
+            {block.text}
+          </p>
+          <img
+            src={block.src}
+            alt={block.alt}
+            className="mx-auto max-h-56 w-auto bg-transparent"
+            loading="lazy"
+          />
+        </div>
+      );
     case "phones":
       return (
         <div

@@ -5,6 +5,7 @@ export type Block =
   | { kind: "note"; text: string }
   | { kind: "hero"; src: string; alt: string }
   | { kind: "img"; src: string; alt: string; wide?: boolean }
+  | { kind: "pair"; text: string; src: string; alt: string }
   | { kind: "phones"; srcs: string[] }
   | { kind: "grid"; srcs: string[]; cols?: 2 | 3 | 4 }
   | { kind: "video"; src: string; poster?: string }
@@ -80,16 +81,22 @@ export const CASES: CaseStudy[] = [
       },
       { kind: "h2", text: "為什麼是 Live Activity？" },
       {
-        kind: "p",
+        kind: "pair",
         text: "降低資訊獲取路徑 — 透過 Live Activity 將關鍵停車資訊延伸至 iOS 鎖定畫面。無需解鎖或開啟 App，喚醒螢幕即可掌握停車狀態，大幅縮短資訊獲取路徑。",
+        src: `${F}/images/KwgqNCglIoZSNNjXhgFHyTnaZIo.png?width=1600&height=1600`,
+        alt: "Dynamic Island Compact",
       },
       {
-        kind: "p",
+        kind: "pair",
         text: "確保停車資訊接收 — 利用 Live Activity 特性繞過推播權限限制，讓停車資訊能有效傳遞給用戶，減少因推播權限關閉而產生的資訊斷層。",
+        src: `${F}/images/K4TwWvtbWzsCg3UWYoWThbm59s.png?width=1600&height=1600`,
+        alt: "Dynamic Island Expanded",
       },
       {
-        kind: "p",
+        kind: "pair",
         text: "以動態更新整合碎片化資訊 — 將原本分散的多則靜態通知，整合為單一即時動態卡片。透過狀態更新取代推播堆疊，用戶在同一介面獲取連貫的停車資訊。",
+        src: `${F}/images/LyledOUav45MUpLeDUqeid7T0E.png?width=1600&height=1600`,
+        alt: "Dynamic Island Minimal",
       },
       {
         kind: "note",
@@ -130,15 +137,6 @@ export const CASES: CaseStudy[] = [
         kind: "p",
         text: "導入 Live Activity 的同時，需同步開發 ActivityKit 依附下的 Dynamic Island，包含緊湊（Compact）、分離（Minimal）與擴展（Expanded）三種狀態。Compact 模式只顯示「停車 icon」，不顯示時間或費用，因為 Live Activity 的資訊是週期性更新，而非逐秒更新。若在 Compact 顯示時間或金額，用戶可能頻繁查看卻看到靜止的數字，反而製造焦慮。",
       },
-      {
-        kind: "grid",
-        cols: 3,
-        srcs: [
-          `${F}/images/KwgqNCglIoZSNNjXhgFHyTnaZIo.png?width=1600&height=1600`,
-          `${F}/images/K4TwWvtbWzsCg3UWYoWThbm59s.png?width=1600&height=1600`,
-          `${F}/images/LyledOUav45MUpLeDUqeid7T0E.png?width=1600&height=1600`,
-        ],
-      },
       { kind: "h2", text: "Dark / Light Mode" },
       {
         kind: "p",
@@ -162,22 +160,19 @@ export const CASES: CaseStudy[] = [
         kind: "p",
         text: "設計迭代：在首個 Update Token 成功接收之前，卡片不顯示「0 分鐘」，改為顯示「查看停車金額與時數」的提示文案，校正用戶預期並引導手動更新。",
       },
+      {
+        kind: "phones",
+        srcs: [
+          `${F}/images/4v3nXejseeOB29Zt6r9fPJb8Go.png?width=1125&height=2436`,
+          `${F}/images/nXZUSdGSyhOhRSkD8AgRXl4RLjo.png?width=1125&height=2436`,
+          `${F}/images/vtjetHhMjiNWmZBPTVuf0YXU4vI.png?width=1125&height=2436`,
+          `${F}/images/WAo7UlEF9F86IF9CdygO4CKZszE.png?width=1125&height=2436`,
+        ],
+      },
       { kind: "h2", text: "與工程開發協作新技術功能" },
       {
         kind: "p",
         text: "Live Activity 推出初期，開發文件稀缺、規範尚在摸索，缺乏社群經驗可參考。我與開發團隊、PM 緊密協作，在實作中反覆測試功能與摸清介面設計的規範，面對更新頻率技術框架限制，在規範內進行預防性設計，確保在各種網路情境下都能減少體驗問題。",
-      },
-      {
-        kind: "img",
-        wide: true,
-        src: `${F}/images/ahQh4aBKOoTLeQ66zRFp5QkvRjw.png?width=2890&height=840`,
-        alt: "Live Activity 狀態時序",
-      },
-      {
-        kind: "img",
-        wide: true,
-        src: `${F}/images/vWHjTD7mHWohWGETJ89UdzSN2k8.png?width=2036&height=1592`,
-        alt: "與工程協作的設計文件",
       },
       { kind: "h2", text: "成果與影響" },
       {

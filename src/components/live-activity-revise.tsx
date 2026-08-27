@@ -44,15 +44,21 @@ const FRICTION = [
 ];
 
 const REASONS = [
-  "路徑縮到最短。關鍵資訊長在鎖定畫面上，喚醒螢幕就能看。",
-  "停車狀態不再綁死推播開關。進行中的旅程仍能送到螢幕前。",
-  "多則靜態通知收成一張會更新的卡片。用戶只對一個介面。",
-];
-
-const ISLAND = [
-  `${F}/images/KwgqNCglIoZSNNjXhgFHyTnaZIo.png?width=1600&height=1600`,
-  `${F}/images/K4TwWvtbWzsCg3UWYoWThbm59s.png?width=1600&height=1600`,
-  `${F}/images/LyledOUav45MUpLeDUqeid7T0E.png?width=1600&height=1600`,
+  {
+    text: "路徑縮到最短。關鍵資訊長在鎖定畫面上，喚醒螢幕就能看。",
+    src: `${F}/images/KwgqNCglIoZSNNjXhgFHyTnaZIo.png?width=1600&height=1600`,
+    alt: "Compact：只顯示停車 icon",
+  },
+  {
+    text: "停車狀態不再綁死推播開關。進行中的旅程仍能送到螢幕前。",
+    src: `${F}/images/K4TwWvtbWzsCg3UWYoWThbm59s.png?width=1600&height=1600`,
+    alt: "Expanded：停車中即時動態",
+  },
+  {
+    text: "多則靜態通知收成一張會更新的卡片。用戶只對一個介面。",
+    src: `${F}/images/LyledOUav45MUpLeDUqeid7T0E.png?width=1600&height=1600`,
+    alt: "Minimal：鎖定畫面最小狀態",
+  },
 ];
 
 const APPEARANCE = [
@@ -62,15 +68,11 @@ const APPEARANCE = [
   `${F}/images/WAo7UlEF9F86IF9CdygO4CKZszE.png?width=1125&height=2436`,
 ];
 
-const COLLAB = [
-  {
-    src: `${F}/images/ahQh4aBKOoTLeQ66zRFp5QkvRjw.png?width=2890&height=840`,
-    alt: "Live Activity 狀態時序",
-  },
-  {
-    src: `${F}/images/vWHjTD7mHWohWGETJ89UdzSN2k8.png?width=2036&height=1592`,
-    alt: "與工程協作的設計文件",
-  },
+const AFTER_LAUNCH = [
+  `${F}/images/4v3nXejseeOB29Zt6r9fPJb8Go.png?width=1125&height=2436`,
+  `${F}/images/nXZUSdGSyhOhRSkD8AgRXl4RLjo.png?width=1125&height=2436`,
+  `${F}/images/vtjetHhMjiNWmZBPTVuf0YXU4vI.png?width=1125&height=2436`,
+  `${F}/images/WAo7UlEF9F86IF9CdygO4CKZszE.png?width=1125&height=2436`,
 ];
 
 function Phone({ src, alt }: { src: string; alt: string }) {
@@ -221,11 +223,22 @@ export function LiveActivityRevise() {
 
       <Section>
         <Rule>03 — 為什麼是 Live Activity</Rule>
-        <ul className="mt-8 max-w-2xl">
-          {REASONS.map((text, i) => (
-            <li key={text} className="border-t border-line py-5">
-              <p className="font-mono text-kicker text-faint">{String(i + 1).padStart(2, "0")}</p>
-              <p className="mt-2 text-lead text-ink-soft">{text}</p>
+        <ul className="mt-8">
+          {REASONS.map((item, i) => (
+            <li
+              key={item.text}
+              className="grid items-center gap-6 border-t border-line py-8 md:grid-cols-2 md:gap-10"
+            >
+              <div>
+                <p className="font-mono text-kicker text-faint">{String(i + 1).padStart(2, "0")}</p>
+                <p className="mt-2 text-lead text-ink-soft">{item.text}</p>
+              </div>
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="mx-auto max-h-52 w-auto bg-transparent"
+                loading="lazy"
+              />
             </li>
           ))}
         </ul>
@@ -246,14 +259,12 @@ export function LiveActivityRevise() {
               <h3 className="mt-2 font-display text-lead font-bold">{stage.title}</h3>
               <p className="mt-1 text-body text-ink">{stage.ask}</p>
               <p className="mt-2 text-body text-ink-soft">{stage.body}</p>
+              <div className="mt-6">
+                <Phone src={stage.src} alt={stage.title} />
+              </div>
             </li>
           ))}
         </ol>
-        <div className="mt-10 grid grid-cols-3 gap-3 md:gap-5">
-          {STAGES.map((stage) => (
-            <Phone key={stage.src} src={stage.src} alt={stage.title} />
-          ))}
-        </div>
       </Section>
 
       <Section className="border-t border-line">
@@ -264,11 +275,6 @@ export function LiveActivityRevise() {
         <p className="mt-6 max-w-2xl text-lead text-ink-soft">
           Live Activity 必須同時處理 Compact、Minimal、Expanded。Compact 不放時數或費用——資料是週期更新，不是逐秒跳動。若在島上放靜止數字，用戶頻繁查看反而會焦慮。
         </p>
-        <div className="mt-10 grid grid-cols-3 gap-3 md:gap-5">
-          {ISLAND.map((src, i) => (
-            <img key={src} src={src} alt={`Dynamic Island ${i + 1}`} className="w-full bg-transparent" loading="lazy" />
-          ))}
-        </div>
       </Section>
 
       <Section innerClassName="pt-0 md:pt-0">
@@ -298,6 +304,11 @@ export function LiveActivityRevise() {
           <p>收訊差時 Update Token 送不出去，卡片拿不到週期更新。時數會停在「0 分鐘」，離場後也可能留在鎖定畫面。</p>
           <p>第一個 Token 成功前，不顯示 0 分鐘，改成「查看停車金額與時數」。先校正預期，再引導手動更新。</p>
         </div>
+        <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+          {AFTER_LAUNCH.map((src, i) => (
+            <Phone key={`${src}-${i}`} src={src} alt={`上線後狀態 ${i + 1}`} />
+          ))}
+        </div>
         </Frame>
       </section>
 
@@ -309,17 +320,6 @@ export function LiveActivityRevise() {
         <p className="mt-6 max-w-2xl text-lead text-ink-soft">
           Live Activity 推出初期，開發文件稀缺、規範尚在摸索。與開發團隊、PM 緊密協作，在實作中摸清介面規範；面對更新頻率的框架限制，確保各種網路情境都能減少體驗問題。
         </p>
-        <div className="mt-10 flex flex-col gap-4">
-          {COLLAB.map((img) => (
-            <img
-              key={img.src}
-              src={img.src}
-              alt={img.alt}
-              className="w-full rounded-lg bg-surface"
-              loading="lazy"
-            />
-          ))}
-        </div>
       </Section>
 
       <Section className="border-t border-line" innerClassName="pt-14 md:pt-20">
