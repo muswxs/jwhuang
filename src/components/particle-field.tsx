@@ -121,11 +121,20 @@ function program(gl: WebGLRenderingContext, vsrc: string, fsrc: string) {
   return p;
 }
 
-function sampleLogo(img: HTMLImageElement, resolution: number): Sample[] {
+function shuffle<T>(arr: T[]) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = (Math.random() * (i + 1)) | 0;
+    const t = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
+  }
+  return arr;
+}
+
+function sampleLogo(img: HTMLImageElement): Sample[] {
   const aspect = img.height / img.width;
-  const w = 500;
-  const h = 500 * aspect;
-  const step = 500 / resolution;
+  const w = 640;
+  const h = Math.round(640 * aspect);
   const canvas = document.createElement("canvas");
   canvas.width = w;
   canvas.height = h;
@@ -135,28 +144,44 @@ function sampleLogo(img: HTMLImageElement, resolution: number): Sample[] {
   ctx.fillRect(0, 0, w, h);
   ctx.drawImage(img, 0, 0, w, h);
   const data = ctx.getImageData(0, 0, w, h).data;
-  const cols = Math.ceil(w / step);
-  const rows = Math.ceil(h / step);
-  const out: Sample[] = [];
-  for (let x = 0; x < cols; x++) {
-    for (let y = 0; y < rows; y++) {
-      if (Math.random() < 0.16) continue;
-      const jx = (Math.random() - 0.5) * step * 0.9;
-      const jy = (Math.random() - 0.5) * step * 0.9;
-      const px = Math.floor(x * step + step / 2 + jx);
-      const py = Math.floor(y * step + step / 2 + jy);
-      if (px < 0 || py < 0 || px >= w || py >= h) continue;
+  const candidates: { nx: number; ny: number }[] = [];
+  const stride = 2;
+  for (let py = 0; py < h; py += stride) {
+    for (let px = 0; px < w; px += stride) {
       const i = (py * w + px) * 4;
-      if (data[i] > 50 || data[i + 1] > 50 || data[i + 2] > 50) {
-        out.push({
-          nx: px / w - 0.5 + (Math.random() - 0.5) * 0.01,
-          ny: (py / h - 0.5) * aspect + (Math.random() - 0.5) * 0.01,
-          r: data[i] / 255,
-          g: data[i + 1] / 255,
-          b: data[i + 2] / 255,
-        });
+      const lum = Math.max(data[i], data[i + 1], data[i + 2]);
+      if (lum <= 48) continue;
+      if (Math.random() > lum / 255) continue;
+      candidates.push({
+        nx: px / w - 0.5,
+        ny: (py / h - 0.5) * aspect,
+      });
+    }
+  }
+  shuffle(candidates);
+  const minDist = 0.02;
+  const minDist2 = minDist * minDist;
+  const out: Sample[] = [];
+  for (const c of candidates) {
+    let ok = true;
+    for (let k = 0; k < out.length; k++) {
+      const dx = c.nx - out[k].nx;
+      const dy = c.ny - out[k].ny;
+      if (dx * dx + dy * dy < minDist2) {
+        ok = false;
+        break;
       }
     }
+    if (!ok) continue;
+    const scatter = Math.random() < 0.14 ? 0.055 : 0.034;
+    out.push({
+      nx: c.nx + (Math.random() - 0.5) * scatter,
+      ny: c.ny + (Math.random() - 0.5) * scatter,
+      r: 1,
+      g: 1,
+      b: 1,
+    });
+    if (out.length >= 1050) break;
   }
   return out;
 }
@@ -193,11 +218,10 @@ export function ParticleField() {
     if (!logoProg) return;
     const rayProg = rayGl ? program(rayGl, RAY_VERT, RAY_FRAG) : null;
 
-    const resolution = 78;
     const logoScale = 0.9;
     const particleSize = 3.4;
     const randomSize = true;
-    const idleMovement = 2.2;
+    const idleMovement = 3.6;
     const lensStrength = 9;
     const tiltStrength = 2;
     const parallaxStrength = 2;
@@ -223,6 +247,7 @@ export function ParticleField() {
       vy: number;
       fx: number;
       fy: number;
+      amp: number;
       sizeMul: number;
       r: number;
       g: number;
@@ -296,13 +321,14 @@ export function ParticleField() {
         return {
           nx: s.nx,
           ny: s.ny,
-          z: (Math.random() - 0.5) * 0.5,
+          z: (Math.random() - 0.5) * 0.7,
           x: 0,
           y: 0,
           vx: 0,
           vy: 0,
           fx: Math.random() * Math.PI * 2,
           fy: Math.random() * Math.PI * 2,
+          amp: 0.65 + Math.random() * 1.35,
           sizeMul: randomSize ? 0.82 + Math.random() * 0.5 : 1,
           r: cr,
           g: cg,
@@ -318,7 +344,7 @@ export function ParticleField() {
     const load = () => {
       const img = new Image();
       img.crossOrigin = "anonymous";
-      img.onload = () => build(sampleLogo(img, resolution));
+      img.onload = () => build(sampleLogo(img));
       img.src = LOGO_URL;
     };
 
@@ -354,8 +380,8 @@ export function ParticleField() {
           tx += tiltX * p.z * 8;
           ty += tiltY * p.z * 8;
           if (!reduced) {
-            tx += Math.sin(t * 0.55 + p.fx) * G * (1.2 + p.z);
-            ty += Math.cos(t * 0.48 + p.fy) * G * (1.2 + p.z);
+            tx += Math.sin(t * 0.42 + p.fx) * G * p.amp;
+            ty += Math.cos(t * 0.33 + p.fy) * G * p.amp;
           }
 
           let intensity = 0;
