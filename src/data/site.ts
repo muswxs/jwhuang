@@ -181,7 +181,7 @@ export const ABOUT = {
         "於 iOS Live Activity 開放初期導入停車場景，設計鎖定畫面即時動態卡片，串聯進場、停車中、離場狀態，提升支援場站自動付款出場轉換率。",
         "設計停車場 QR Code 線上繳費流程，整合 Apple Pay、LINE Pay 等多元支付，導入台灣最大日系停車品牌 Times Parking。",
         "負責 App 加油掃碼付款介面，經標案串接全台中油直營加油站，擴大加油服務場景與使用觸及。",
-        "負責 Pick N Charge 充電介面，串聯自有充電檁硬體、即時呈現插拔狀態，覆蓋從付款綁定到計費追蹤的端對端流程。",
+        "負責 Pick N Charge 充電介面，串聯自有充電樁硬體、即時呈現插拔狀態，覆蓋從付款綁定到計費追蹤的端對端流程。",
         "設計 Autopass 延伸車主服務，涵蓋車險、洗車、駕駛中心點數折抵等探索型產品介面。",
         "建構 powered by Autopass 介面框架，導入 LINE Bank、Richart Life、全盈+PAY、中油 Pay、Pi 拍錢包、My Toyota 等合作平台。",
         "定調 Autopass.xyz 品牌官網視覺，整合 Motion 與 3D 模型；並獨立以 Webflow 完成品牌海外願景網站前端。",
