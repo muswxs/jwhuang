@@ -190,7 +190,7 @@ export const ABOUT = {
       ],
     },
     {
-      company: "停車大聲公（後由 Acer 收購）",
+      company: "停車大聲公 <Acquired by Acer>",
       role: "UI/UX Designer",
       years: "2016 – 2017",
       titles: [
