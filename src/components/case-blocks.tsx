@@ -22,15 +22,20 @@ function Meta({ study }: { study: CaseStudy }) {
 
 function Phone({ src, alt }: { src: string; alt: string }) {
   return (
-    <figure className="overflow-hidden rounded-lg bg-asphalt shadow-[0_18px_40px_rgba(0,0,0,0.18)]">
-      <img src={src} alt={alt} className="block w-full" loading="lazy" />
+    <figure className="overflow-hidden rounded-[22px] bg-transparent">
+      <img
+        src={src}
+        alt={alt}
+        className="block w-full bg-transparent"
+        loading="lazy"
+      />
     </figure>
   );
 }
 
 function LoopVideo({ src, poster }: { src: string; poster?: string }) {
   return (
-    <div className="overflow-hidden rounded-lg bg-asphalt">
+    <div className="overflow-hidden rounded-lg bg-paper">
       <video
         src={src}
         poster={poster}
@@ -44,48 +49,54 @@ function LoopVideo({ src, poster }: { src: string; poster?: string }) {
   );
 }
 
-function BlockView({ block, title }: { block: Block; title: string }) {
+function BlockView({
+  block,
+  title,
+  revise,
+}: {
+  block: Block;
+  title: string;
+  revise?: boolean;
+}) {
   switch (block.kind) {
     case "p":
-      return <p className="max-w-2xl text-pretty text-lead text-ink-soft">{block.text}</p>;
+      return (
+        <p className={cn("text-pretty text-lead text-ink-soft", revise ? "max-w-xl" : "max-w-2xl")}>
+          {block.text}
+        </p>
+      );
     case "h2":
       return (
-        <h2 className="mt-6 font-display text-title font-bold tracking-tight">{block.text}</h2>
+        <h2
+          className={cn(
+            "font-display font-bold tracking-tight",
+            revise ? "mt-2 text-title" : "mt-6 text-title",
+          )}
+        >
+          {block.text}
+        </h2>
       );
     case "h3":
-      return (
-        <h3 className="font-sans text-lead font-medium text-ink">{block.text}</h3>
-      );
+      return <h3 className="font-sans text-lead font-medium text-ink">{block.text}</h3>;
     case "note":
-      return (
-        <p className="font-mono text-kicker leading-body text-muted">※ {block.text}</p>
-      );
+      return <p className="font-mono text-kicker leading-body text-muted">※ {block.text}</p>;
     case "hero":
       return (
-        <div className="overflow-hidden rounded-lg">
-          <img
-            src={block.src}
-            alt={block.alt}
-            className="w-full object-cover"
-          />
+        <div className="overflow-hidden rounded-lg bg-paper">
+          <img src={block.src} alt={block.alt} className="w-full bg-paper object-cover" />
         </div>
       );
     case "img":
       return (
-        <div className={cn("overflow-hidden rounded-lg", block.wide ? "w-full" : "max-w-3xl")}>
-          <img
-            src={block.src}
-            alt={block.alt}
-            className="block w-full"
-            loading="lazy"
-          />
+        <div className={cn("overflow-hidden rounded-lg bg-paper", block.wide ? "w-full" : "max-w-3xl")}>
+          <img src={block.src} alt={block.alt} className="block w-full bg-paper" loading="lazy" />
         </div>
       );
     case "phones":
       return (
         <div
           className={cn(
-            "grid gap-4 md:gap-6",
+            "grid gap-3 md:gap-5",
             block.srcs.length > 3 ? "grid-cols-2 md:grid-cols-4" : "grid-cols-3",
           )}
         >
@@ -111,7 +122,7 @@ function BlockView({ block, title }: { block: Block; title: string }) {
               key={src}
               src={src}
               alt=""
-              className="w-full rounded-lg bg-surface object-cover"
+              className="w-full rounded-lg bg-paper object-cover"
               loading="lazy"
             />
           ))}
@@ -150,9 +161,14 @@ function BlockView({ block, title }: { block: Block; title: string }) {
 }
 
 export function CaseStudyView({ study }: { study: CaseStudy }) {
+  const revise = study.variant === "revise";
+
   return (
     <article className="mx-auto max-w-5xl px-5 pb-24 pt-4 md:px-10">
-      <header className="max-w-3xl">
+      <header className={revise ? "max-w-2xl" : "max-w-3xl"}>
+        {study.kicker ? (
+          <p className="mb-3 font-mono text-kicker tracking-nav text-faint">{study.kicker}</p>
+        ) : null}
         <h1 className="font-display text-display font-bold tracking-tight text-balance">
           {study.title}
         </h1>
@@ -160,7 +176,7 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
         <p className="mt-2 font-mono text-meta italic text-muted">{study.english}</p>
       </header>
 
-      <div className="mt-8 flex max-w-3xl flex-col gap-4">
+      <div className={cn("mt-8 flex flex-col", revise ? "max-w-xl gap-5" : "max-w-3xl gap-4")}>
         {study.intro.map((p) => (
           <p key={p} className="text-pretty text-lead text-ink-soft">
             {p}
@@ -170,25 +186,28 @@ export function CaseStudyView({ study }: { study: CaseStudy }) {
 
       {study.live && study.live.length > 0 ? (
         <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-          {study.live.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              target="_blank"
-              rel="noreferrer"
-              className="font-nav text-nav tracking-nav text-nav-active transition-opacity hover:opacity-70"
-            >
-              {l.label}
-            </a>
-          ))}
+          {study.live.map((l) => {
+            const internal = l.href.startsWith("/");
+            return (
+              <a
+                key={l.href}
+                href={l.href}
+                target={internal ? undefined : "_blank"}
+                rel={internal ? undefined : "noreferrer"}
+                className="font-nav text-nav tracking-nav text-nav-active transition-opacity hover:opacity-70"
+              >
+                {l.label}
+              </a>
+            );
+          })}
         </div>
       ) : null}
 
       <Meta study={study} />
 
-      <div className="mt-12 flex flex-col gap-10 md:gap-14">
+      <div className={cn("mt-12 flex flex-col", revise ? "gap-12 md:gap-16" : "gap-10 md:gap-14")}>
         {study.blocks.map((block, i) => (
-          <BlockView key={i} block={block} title={study.title} />
+          <BlockView key={i} block={block} title={study.title} revise={revise} />
         ))}
       </div>
     </article>
