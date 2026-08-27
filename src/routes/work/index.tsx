@@ -24,7 +24,7 @@ function WorkIndex() {
               <Link
                 to="/work/$slug"
                 params={{ slug: link.slug }}
-                className="text-nav-active transition-opacity hover:opacity-60"
+                className="text-ink transition-opacity hover:opacity-60"
               >
                 {link.label}
               </Link>
