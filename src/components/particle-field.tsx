@@ -158,6 +158,14 @@ function sampleLogo(img: HTMLImageElement, resolution: number): Sample[] {
   return out;
 }
 
+function pickShade(): [number, number, number] {
+  const r = Math.random();
+  if (r < 0.46) return [200 / 255, 203 / 255, 204 / 255];
+  if (r < 0.7) return [192 / 255, 196 / 255, 196 / 255];
+  if (r < 0.88) return [156 / 255, 158 / 255, 156 / 255];
+  return [110 / 255, 110 / 255, 110 / 255];
+}
+
 export function ParticleField() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLCanvasElement>(null);
@@ -172,10 +180,10 @@ export function ParticleField() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const gl =
       logoCanvas.getContext("webgl", { alpha: true, antialias: false, premultipliedAlpha: false }) ||
-      logoCanvas.getContext("experimental-webgl", { alpha: true, antialias: false }) as WebGLRenderingContext | null;
+      (logoCanvas.getContext("experimental-webgl", { alpha: true, antialias: false }) as WebGLRenderingContext | null);
     const rayGl =
       rayCanvas.getContext("webgl", { alpha: true, antialias: false, premultipliedAlpha: false }) ||
-      rayCanvas.getContext("experimental-webgl", { alpha: true, antialias: false }) as WebGLRenderingContext | null;
+      (rayCanvas.getContext("experimental-webgl", { alpha: true, antialias: false }) as WebGLRenderingContext | null);
     if (!gl) return;
 
     const logoProg = program(gl, VERT, FRAG);
@@ -184,15 +192,15 @@ export function ParticleField() {
 
     const resolution = 100;
     const logoScale = 0.9;
-    const particleSize = 2.2;
+    const particleSize = 2;
     const randomSize = true;
     const idleMovement = 1.5;
     const lensStrength = 9;
     const tiltStrength = 2;
     const parallaxStrength = 2;
     const hoverRadius = 200;
-    const active = [36 / 255, 36 / 255, 36 / 255];
-    const inactive = [68 / 255, 68 / 255, 68 / 255];
+    const active = [110 / 255, 110 / 255, 110 / 255];
+    const inactive = [200 / 255, 203 / 255, 204 / 255];
 
     let w = 0;
     let h = 0;
@@ -238,7 +246,11 @@ export function ParticleField() {
     if (rayGl && rayProg) {
       rayBuf = rayGl.createBuffer();
       rayGl.bindBuffer(rayGl.ARRAY_BUFFER, rayBuf);
-      rayGl.bufferData(rayGl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), rayGl.STATIC_DRAW);
+      rayGl.bufferData(
+        rayGl.ARRAY_BUFFER,
+        new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+        rayGl.STATIC_DRAW,
+      );
       rayLoc = {
         res: rayGl.getUniformLocation(rayProg, "iResolution"),
         time: rayGl.getUniformLocation(rayProg, "iTime"),
@@ -280,6 +292,7 @@ export function ParticleField() {
       particles = [];
       for (let layer = 0; layer < layers; layer++) {
         for (const s of samples) {
+          const [cr, cg, cb] = pickShade();
           particles.push({
             nx: s.nx,
             ny: s.ny,
@@ -291,9 +304,9 @@ export function ParticleField() {
             fx: Math.random() * Math.PI * 2,
             fy: Math.random() * Math.PI * 2,
             sizeMul: randomSize ? 0.55 + Math.random() * 0.9 : 1,
-            r: s.r,
-            g: s.g,
-            b: s.b,
+            r: cr,
+            g: cg,
+            b: cb,
           });
         }
       }
@@ -377,7 +390,7 @@ export function ParticleField() {
           buf[o + 1] = p.y * dpr;
           buf[o + 2] = particleSize * p.sizeMul * dpr * (1 - p.z * 0.1);
           buf[o + 3] = intensity;
-          buf[o + 4] = 1 - p.z * 0.18;
+          buf[o + 4] = 1 - Math.abs(p.z) * 0.06;
           buf[o + 5] = p.r;
           buf[o + 6] = p.g;
           buf[o + 7] = p.b;
@@ -401,7 +414,7 @@ export function ParticleField() {
         gl.uniform2f(loc.res, logoCanvas.width, logoCanvas.height);
         gl.uniform3f(loc.active, active[0], active[1], active[2]);
         gl.uniform3f(loc.inactive, inactive[0], inactive[1], inactive[2]);
-        gl.uniform1f(loc.useOrig, 0);
+        gl.uniform1f(loc.useOrig, 1);
         gl.drawArrays(gl.POINTS, 0, particles.length);
       }
 
