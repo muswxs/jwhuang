@@ -5,6 +5,7 @@
   --color-ink: #111111;
   --color-ink-soft: #2a2a2a;
   --color-muted: #5c5c5c;
+  --color-quiet: #999999;
   --color-faint: #8a8a8a;
   --color-line: #c4c9cb;
   --color-surface: #f3f5f6;
@@ -25,6 +26,9 @@
   --text-meta: 0.75rem;
   --text-body: 1rem;
   --text-lead: 1rem;
+  --text-work-intro: 1.1rem;
+  --text-work-card: 1.2rem;
+  --text-work-meta: 0.9rem;
   /* Shared 390→1280 window. All fluid steps lock together. */
   --fluid-progress: clamp(0, (100vw - 390px) / (1280px - 390px), 1);
   --text-title: calc(1.5rem + var(--fluid-progress) * 0.5rem);
@@ -37,9 +41,13 @@
   --leading-snug: 1.28;
   --leading-home: 1.4;
   --leading-body: 1.7;
+  --leading-work-intro: 1.8;
+  --leading-work-meta: 1.8;
 
   --tracking-nav: 0.04em;
   --tracking-tight: -0.02em;
+
+  --max-work-intro: 43.75rem;
 
   --aspect-portrait: 3 / 4;
   --aspect-phone: 9 / 19.5;

@@ -21,6 +21,7 @@ export const WORK = [
     year: "2025",
     type: "APP",
     cover: "/media/work-ai.jpg",
+    video: "/media/work-ai.mp4",
   },
   {
     slug: "autopass.xyz",
@@ -69,8 +70,21 @@ export const WORK = [
     year: "2025",
     type: "WEB",
     cover: "/media/work-dpass.jpg",
+    video: "/media/work-dpass.mp4",
   },
 ] as const;
+
+export const WORK_INTRO = {
+  before:
+    "產品選於支付與支付領域，橫跨停車付款、地圖互動、語音辨識等場景，包含 ",
+  links: [
+    { slug: "live-activity", label: "Live Activity 停車即時動態" },
+    { slug: "ai-assistant", label: "AI 出行秘書" },
+    { slug: "autopass.xyz", label: "Autopass 品牌官網" },
+    { slug: "pba", label: "跨平台服務授權" },
+  ],
+  after: "等設計專案。",
+} as const;
 
 export const VISUAL = [
   {

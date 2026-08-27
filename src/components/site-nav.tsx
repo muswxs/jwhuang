@@ -52,6 +52,7 @@ export function SiteNav({ overlay = false }: { overlay?: boolean }) {
             <Link
               key={item.href}
               to={item.href}
+              activeProps={{ className: "text-nav-active" }}
               className="transition-opacity hover:opacity-50"
             >
               {item.label}
@@ -93,6 +94,7 @@ export function SiteNav({ overlay = false }: { overlay?: boolean }) {
                 key={item.href}
                 to={item.href}
                 onClick={() => setOpen(false)}
+                activeProps={{ className: "text-paper" }}
                 className="h-5 transition-opacity hover:opacity-70"
               >
                 {item.label}
