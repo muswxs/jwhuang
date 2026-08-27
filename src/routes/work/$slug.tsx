@@ -2,14 +2,20 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CaseStudyView } from "@/components/case-blocks";
 import { PageShell } from "@/components/page-shell";
 import { NotFound } from "@/components/not-found";
-import { getCase } from "@/data/cases";
+import { getCase, type CaseStudy } from "@/data/cases";
+import { liveActivityV2 } from "@/data/case-live-v2";
 import { WORK } from "@/data/site";
+
+function resolveCase(slug: string): CaseStudy | undefined {
+  if (slug === liveActivityV2.slug) return liveActivityV2 as CaseStudy;
+  return getCase(slug);
+}
 
 export const Route = createFileRoute("/work/$slug")({
   component: CasePage,
   notFoundComponent: NotFound,
   loader: ({ params }) => {
-    const study = getCase(params.slug);
+    const study = resolveCase(params.slug);
     if (!study) throw notFound();
     return study;
   },
