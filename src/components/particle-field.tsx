@@ -140,14 +140,17 @@ function sampleLogo(img: HTMLImageElement, resolution: number): Sample[] {
   const out: Sample[] = [];
   for (let x = 0; x < cols; x++) {
     for (let y = 0; y < rows; y++) {
-      const px = Math.floor(x * step + step / 2);
-      const py = Math.floor(y * step + step / 2);
-      if (px >= w || py >= h) continue;
+      if (Math.random() < 0.16) continue;
+      const jx = (Math.random() - 0.5) * step * 0.9;
+      const jy = (Math.random() - 0.5) * step * 0.9;
+      const px = Math.floor(x * step + step / 2 + jx);
+      const py = Math.floor(y * step + step / 2 + jy);
+      if (px < 0 || py < 0 || px >= w || py >= h) continue;
       const i = (py * w + px) * 4;
       if (data[i] > 50 || data[i + 1] > 50 || data[i + 2] > 50) {
         out.push({
-          nx: px / w - 0.5,
-          ny: (py / h - 0.5) * aspect,
+          nx: px / w - 0.5 + (Math.random() - 0.5) * 0.01,
+          ny: (py / h - 0.5) * aspect + (Math.random() - 0.5) * 0.01,
           r: data[i] / 255,
           g: data[i + 1] / 255,
           b: data[i + 2] / 255,
@@ -190,11 +193,11 @@ export function ParticleField() {
     if (!logoProg) return;
     const rayProg = rayGl ? program(rayGl, RAY_VERT, RAY_FRAG) : null;
 
-    const resolution = 72;
+    const resolution = 78;
     const logoScale = 0.9;
     const particleSize = 3.4;
     const randomSize = true;
-    const idleMovement = 1.5;
+    const idleMovement = 2.2;
     const lensStrength = 9;
     const tiltStrength = 2;
     const parallaxStrength = 2;
@@ -288,28 +291,24 @@ export function ParticleField() {
     };
 
     const build = (samples: Sample[]) => {
-      const layers = 3;
-      particles = [];
-      for (let layer = 0; layer < layers; layer++) {
-        for (const s of samples) {
-          const [cr, cg, cb] = pickShade();
-          particles.push({
-            nx: s.nx,
-            ny: s.ny,
-            z: (layer - 1) * 0.45,
-            x: 0,
-            y: 0,
-            vx: 0,
-            vy: 0,
-            fx: Math.random() * Math.PI * 2,
-            fy: Math.random() * Math.PI * 2,
-            sizeMul: randomSize ? 0.82 + Math.random() * 0.5 : 1,
-            r: cr,
-            g: cg,
-            b: cb,
-          });
-        }
-      }
+      particles = samples.map((s) => {
+        const [cr, cg, cb] = pickShade();
+        return {
+          nx: s.nx,
+          ny: s.ny,
+          z: (Math.random() - 0.5) * 0.5,
+          x: 0,
+          y: 0,
+          vx: 0,
+          vy: 0,
+          fx: Math.random() * Math.PI * 2,
+          fy: Math.random() * Math.PI * 2,
+          sizeMul: randomSize ? 0.82 + Math.random() * 0.5 : 1,
+          r: cr,
+          g: cg,
+          b: cb,
+        };
+      });
       buf = new Float32Array(particles.length * 8);
       gl.bindBuffer(gl.ARRAY_BUFFER, glBuf);
       gl.bufferData(gl.ARRAY_BUFFER, buf.byteLength, gl.DYNAMIC_DRAW);
