@@ -190,9 +190,9 @@ export function ParticleField() {
     if (!logoProg) return;
     const rayProg = rayGl ? program(rayGl, RAY_VERT, RAY_FRAG) : null;
 
-    const resolution = 100;
+    const resolution = 72;
     const logoScale = 0.9;
-    const particleSize = 2;
+    const particleSize = 3.4;
     const randomSize = true;
     const idleMovement = 1.5;
     const lensStrength = 9;
@@ -303,7 +303,7 @@ export function ParticleField() {
             vy: 0,
             fx: Math.random() * Math.PI * 2,
             fy: Math.random() * Math.PI * 2,
-            sizeMul: randomSize ? 0.55 + Math.random() * 0.9 : 1,
+            sizeMul: randomSize ? 0.82 + Math.random() * 0.5 : 1,
             r: cr,
             g: cg,
             b: cb,
@@ -388,7 +388,7 @@ export function ParticleField() {
           const o = i * 8;
           buf[o] = p.x * dpr;
           buf[o + 1] = p.y * dpr;
-          buf[o + 2] = particleSize * p.sizeMul * dpr * (1 - p.z * 0.1);
+          buf[o + 2] = particleSize * p.sizeMul * dpr * (1 - p.z * 0.08);
           buf[o + 3] = intensity;
           buf[o + 4] = 1 - Math.abs(p.z) * 0.06;
           buf[o + 5] = p.r;
