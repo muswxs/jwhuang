@@ -17,7 +17,7 @@ function HomeMark({
       className={cn("inline-flex size-4 items-center justify-center", className)}
       aria-label="Home"
     >
-      <span className="block size-4 rounded-full border-[1.5px] border-current" />
+      <span className="block size-4 rounded-full border border-current" />
     </Link>
   );
 }
