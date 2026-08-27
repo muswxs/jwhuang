@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/page-shell";
-import { VisualVideo } from "@/components/visual-video";
+import { VisualImage, VisualVideo } from "@/components/visual-video";
 import { VISUAL } from "@/data/site";
 
 export const Route = createFileRoute("/visual")({
@@ -57,10 +57,9 @@ function VisualPage() {
                 className="w-[min(72vw,20rem)] shrink-0 snap-start"
               >
                 <div className="overflow-hidden rounded-[1.35rem] bg-[#cad3d9]">
-                  <img
+                  <VisualImage
                     src={item.still}
                     alt={`App Store screenshot ${String(index + 1).padStart(2, "0")}`}
-                    className="aspect-[1290/2796] w-full object-cover"
                   />
                 </div>
               </figure>
