@@ -15,6 +15,9 @@
   --color-menu-fg: #cccccc;
   --color-dusk: #c45a1a;
   --color-asphalt: #1a1a1a;
+  --color-hair: #bcc7cf;
+  --color-dim: #73787d;
+  --color-note: #666666;
 
   --font-nav: "Barlow", "IBM Plex Sans TC", sans-serif;
   --font-display: "IBM Plex Sans Condensed", "IBM Plex Sans TC", sans-serif;
@@ -29,6 +32,10 @@
   --text-work-intro: 1.1rem;
   --text-work-card: 1.2rem;
   --text-work-meta: 0.9rem;
+  --text-about-name: 1.6rem;
+  --text-about-section: 1.4rem;
+  --text-about-mid: 1.2rem;
+  --text-about-sm: 0.8rem;
   /* Shared 390→1280 window. All fluid steps lock together. */
   --fluid-progress: clamp(0, (100vw - 390px) / (1280px - 390px), 1);
   --text-title: calc(1.5rem + var(--fluid-progress) * 0.5rem);
@@ -43,11 +50,15 @@
   --leading-body: 1.7;
   --leading-work-intro: 1.8;
   --leading-work-meta: 1.8;
+  --leading-about: 1.9;
+  --leading-about-head: 1.6;
 
   --tracking-nav: 0.04em;
   --tracking-tight: -0.02em;
 
   --max-work-intro: 43.75rem;
+  --max-width-about: 56.25rem;
+  --width-about-rail: 16.25rem;
 
   --aspect-portrait: 3 / 4;
   --aspect-phone: 9 / 19.5;
