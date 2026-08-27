@@ -128,7 +128,16 @@ export const CASES: CaseStudy[] = [
       { kind: "h2", text: "Dynamic Island 動態島" },
       {
         kind: "p",
-        text: "導入 Live Activity 的同時，需同步開發 ActivityKit 依附下的 Dynamic Island，包含緊湊（Compact）、分離（Minimal）與擴展（Expanded）三種狀態。Compact 模式只顯示「停車 icon」，不顯示時間或費用，因為 Live Activity 的資訊是週期性更新，而非逐秒更新。",
+        text: "導入 Live Activity 的同時，需同步開發 ActivityKit 依附下的 Dynamic Island，包含緊湊（Compact）、分離（Minimal）與擴展（Expanded）三種狀態。Compact 模式只顯示「停車 icon」，不顯示時間或費用，因為 Live Activity 的資訊是週期性更新，而非逐秒更新。若在 Compact 顯示時間或金額，用戶可能頻繁查看卻看到靜止的數字，反而製造焦慮。",
+      },
+      {
+        kind: "grid",
+        cols: 3,
+        srcs: [
+          `${F}/images/KwgqNCglIoZSNNjXhgFHyTnaZIo.png?width=1600&height=1600`,
+          `${F}/images/K4TwWvtbWzsCg3UWYoWThbm59s.png?width=1600&height=1600`,
+          `${F}/images/LyledOUav45MUpLeDUqeid7T0E.png?width=1600&height=1600`,
+        ],
       },
       { kind: "h2", text: "Dark / Light Mode" },
       {
@@ -152,6 +161,23 @@ export const CASES: CaseStudy[] = [
       {
         kind: "p",
         text: "設計迭代：在首個 Update Token 成功接收之前，卡片不顯示「0 分鐘」，改為顯示「查看停車金額與時數」的提示文案，校正用戶預期並引導手動更新。",
+      },
+      { kind: "h2", text: "與工程開發協作新技術功能" },
+      {
+        kind: "p",
+        text: "Live Activity 推出初期，開發文件稀缺、規範尚在摸索，缺乏社群經驗可參考。我與開發團隊、PM 緊密協作，在實作中反覆測試功能與摸清介面設計的規範，面對更新頻率技術框架限制，在規範內進行預防性設計，確保在各種網路情境下都能減少體驗問題。",
+      },
+      {
+        kind: "img",
+        wide: true,
+        src: `${F}/images/ahQh4aBKOoTLeQ66zRFp5QkvRjw.png?width=2890&height=840`,
+        alt: "Live Activity 狀態時序",
+      },
+      {
+        kind: "img",
+        wide: true,
+        src: `${F}/images/vWHjTD7mHWohWGETJ89UdzSN2k8.png?width=2036&height=1592`,
+        alt: "與工程協作的設計文件",
       },
       { kind: "h2", text: "成果與影響" },
       {

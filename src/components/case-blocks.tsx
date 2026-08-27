@@ -124,7 +124,7 @@ function BlockView({
               key={src}
               src={src}
               alt=""
-              className="w-full rounded-lg bg-paper object-cover"
+              className="w-full rounded-lg bg-transparent object-contain"
               loading="lazy"
             />
           ))}
