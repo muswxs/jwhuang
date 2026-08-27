@@ -14,7 +14,7 @@ function AiLabPage() {
     <PageShell>
       <main className="px-5 pb-20 md:px-10">
         <p className="font-mono text-meta text-muted">↳ 探索 AI 與設計的互動邊界</p>
-        <ul className="mt-8 flex flex-col gap-14">
+        <ul className="mt-8 grid grid-cols-1 gap-x-6 gap-y-12 md:grid-cols-2">
           {LAB.map((item) => (
             <li key={item.href}>
               <a
@@ -27,19 +27,14 @@ function AiLabPage() {
                   <img
                     src={item.cover}
                     alt={item.title}
-                    className="aspect-video w-full origin-center object-cover scale-[1.08] transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-100"
+                    className="aspect-video w-full origin-center object-cover transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-[1.04]"
                   />
                 </div>
-                <div className="mt-4 flex flex-col gap-1 md:flex-row md:items-end md:justify-between">
-                  <div>
-                    <h2 className="font-display text-title font-bold tracking-tight">
-                      {item.title}
-                    </h2>
-                    <p className="mt-1 max-w-xl text-body text-ink-soft">{item.desc}</p>
-                  </div>
-                    <p className="mt-2 font-mono text-meta text-muted md:mt-0">
-                    {item.url} ↗
-                  </p>
+                <div className="mt-4">
+                  <h2 className="font-display text-title font-bold tracking-tight">
+                    {item.title}
+                  </h2>
+                  <p className="mt-1 text-body text-ink-soft">{item.desc}</p>
                 </div>
               </a>
             </li>
