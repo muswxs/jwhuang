@@ -34,7 +34,7 @@ void main() {
   vec2 coord = gl_PointCoord - vec2(0.5);
   float dist = length(coord);
   float edge = 0.5;
-  float smoothWidth = 1.0 / v_size;
+  float smoothWidth = 1.0 / max(v_size, 1.0);
   float alpha = 1.0 - smoothstep(edge - smoothWidth, edge, dist);
   if (alpha < 0.01) discard;
   gl_FragColor = vec4(v_color, alpha);
@@ -184,15 +184,15 @@ export function ParticleField() {
 
     const resolution = 100;
     const logoScale = 0.9;
-    const particleSize = 2;
+    const particleSize = 2.2;
     const randomSize = true;
     const idleMovement = 1.5;
     const lensStrength = 9;
     const tiltStrength = 2;
     const parallaxStrength = 2;
     const hoverRadius = 200;
-    const active = [207 / 255, 207 / 255, 207 / 255];
-    const inactive = [219 / 255, 219 / 255, 219 / 255];
+    const active = [36 / 255, 36 / 255, 36 / 255];
+    const inactive = [68 / 255, 68 / 255, 68 / 255];
 
     let w = 0;
     let h = 0;
