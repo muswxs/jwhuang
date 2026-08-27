@@ -85,14 +85,34 @@ function Rule({ children }: { children: string }) {
   return <p className="font-mono text-kicker tracking-nav text-faint">{children}</p>;
 }
 
-function Section({
+function Frame({
   children,
   className,
 }: {
   children: ReactNode;
   className?: string;
 }) {
-  return <section className={cn("px-5 py-14 md:px-10 md:py-20", className)}>{children}</section>;
+  return (
+    <div className={cn("mx-auto w-full max-w-5xl px-5 md:px-10", className)}>
+      {children}
+    </div>
+  );
+}
+
+function Section({
+  children,
+  className,
+  innerClassName,
+}: {
+  children: ReactNode;
+  className?: string;
+  innerClassName?: string;
+}) {
+  return (
+    <section className={className}>
+      <Frame className={cn("py-14 md:py-20", innerClassName)}>{children}</Frame>
+    </section>
+  );
 }
 
 export function LiveActivityRevise() {
@@ -105,7 +125,8 @@ export function LiveActivityRevise() {
           className="absolute inset-0 size-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-paper via-paper/60 to-transparent" />
-        <div className="relative z-10 flex min-h-dvh flex-col justify-end px-5 pb-10 pt-24 md:min-h-[80vh] md:px-10 md:pb-14">
+        <div className="relative z-10 flex min-h-dvh flex-col justify-end md:min-h-[80vh]">
+          <Frame className="pb-10 pt-24 md:pb-14">
           <Rule>Carmochi · iOS · 2023.12 – 2024.06</Rule>
           <h1 className="mt-4 max-w-3xl font-display text-display font-bold tracking-tight text-balance">
             點亮螢幕，就知道停多久、多少錢
@@ -120,10 +141,12 @@ export function LiveActivityRevise() {
           >
             ← 對照原稿
           </Link>
+          </Frame>
         </div>
       </section>
 
-      <section className="border-y border-line px-5 md:px-10">
+      <section className="border-y border-line">
+        <Frame>
         <div className="grid md:grid-cols-3">
           {[
             ["不解鎖", "資訊長在鎖定畫面"],
@@ -143,6 +166,7 @@ export function LiveActivityRevise() {
             </div>
           ))}
         </div>
+        </Frame>
       </section>
 
       <Section>
@@ -157,7 +181,7 @@ export function LiveActivityRevise() {
         </div>
       </Section>
 
-      <Section className="pt-0 md:pt-0">
+      <Section innerClassName="pt-0 md:pt-0">
         <Rule>02 — 摩擦</Rule>
         <h2 className="mt-3 max-w-xl font-display text-hero font-bold tracking-tight">
           舊體驗像一疊對不齊的通知
@@ -173,7 +197,8 @@ export function LiveActivityRevise() {
         </ol>
       </Section>
 
-      <section className="border-y border-line bg-surface px-5 md:px-10">
+      <section className="border-y border-line bg-surface">
+        <Frame>
         <div className="grid md:grid-cols-2">
           <div className="border-b border-line py-12 md:border-b-0 md:border-r md:py-16 md:pr-10">
             <Rule>體驗</Rule>
@@ -191,6 +216,7 @@ export function LiveActivityRevise() {
         <p className="max-w-2xl border-t border-line py-8 text-lead text-ink-soft">
           原則：鎖定畫面只放當下必要的資訊。數字尚未可靠時，寧可不顯示，也不要用「0 分鐘」製造錯誤預期。
         </p>
+        </Frame>
       </section>
 
       <Section>
@@ -208,7 +234,7 @@ export function LiveActivityRevise() {
         </p>
       </Section>
 
-      <Section className="pt-0 md:pt-0">
+      <Section innerClassName="pt-0 md:pt-0">
         <Rule>04 — 停車旅程</Rule>
         <h2 className="mt-3 max-w-xl font-display text-hero font-bold tracking-tight">
           每個狀態只回答當下那一件事
@@ -245,7 +271,7 @@ export function LiveActivityRevise() {
         </div>
       </Section>
 
-      <Section className="pt-0 md:pt-0">
+      <Section innerClassName="pt-0 md:pt-0">
         <Rule>06 — Dark / Light</Rule>
         <h2 className="mt-3 max-w-xl font-display text-title font-bold tracking-tight">
           跟著系統外觀走
@@ -260,7 +286,8 @@ export function LiveActivityRevise() {
         </div>
       </Section>
 
-      <section className="bg-asphalt px-5 py-14 text-surface md:px-10 md:py-20">
+      <section className="bg-asphalt text-surface">
+        <Frame className="py-14 md:py-20">
         <Rule>07 — 上線後</Rule>
         <p className="mt-6 font-display text-display font-bold tracking-tight text-surface">
           <span className="text-dim line-through">0 分鐘</span>
@@ -271,6 +298,7 @@ export function LiveActivityRevise() {
           <p>收訊差時 Update Token 送不出去，卡片拿不到週期更新。時數會停在「0 分鐘」，離場後也可能留在鎖定畫面。</p>
           <p>第一個 Token 成功前，不顯示 0 分鐘，改成「查看停車金額與時數」。先校正預期，再引導手動更新。</p>
         </div>
+        </Frame>
       </section>
 
       <Section>
@@ -294,7 +322,7 @@ export function LiveActivityRevise() {
         </div>
       </Section>
 
-      <Section className="border-t border-line pt-14 md:pt-20">
+      <Section className="border-t border-line" innerClassName="pt-14 md:pt-20">
         <Rule>09 — 成果</Rule>
         <p className="mt-6 max-w-2xl font-display text-title font-bold tracking-tight text-pretty">
           查看路徑從「打開 App」變成「看鎖定畫面」。關推播而流失的人重新看到停車資訊，支援場站的自動付款出場轉換上升。
