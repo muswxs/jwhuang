@@ -31,45 +31,31 @@ function WorkIndex() {
         </p>
 
         <ul className="mt-10 grid grid-cols-1 gap-x-2 gap-y-10 lg:grid-cols-3">
-          {WORK.map((item) => {
-            const video = "video" in item ? item.video : undefined;
-            return (
-              <li key={item.slug}>
-                <Link
-                  to="/work/$slug"
-                  params={{ slug: item.slug }}
-                  className="group flex flex-col gap-3"
-                >
-                  <div className="relative overflow-hidden rounded-lg bg-asphalt">
-                    <img
-                      src={item.cover}
-                      alt=""
-                      className="aspect-portrait w-full origin-center object-cover scale-[1.08] transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-100"
-                    />
-                    {video ? (
-                      <video
-                        className="pointer-events-none absolute inset-0 size-full origin-center object-cover scale-[1.08] opacity-0 transition-[opacity,transform] duration-500 ease-[var(--ease-out)] group-hover:scale-100 group-hover:opacity-100"
-                        src={video}
-                        muted
-                        loop
-                        playsInline
-                        preload="auto"
-                        autoPlay
-                      />
-                    ) : null}
-                  </div>
-                  <div className="px-1">
-                    <p className="font-sans text-work-card leading-none text-ink">
-                      {item.title}
-                    </p>
-                    <p className="mt-1 font-sans text-work-meta leading-work-meta text-ink">
-                      {item.type} ． {item.year}
-                    </p>
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
+          {WORK.map((item) => (
+            <li key={item.slug}>
+              <Link
+                to="/work/$slug"
+                params={{ slug: item.slug }}
+                className="group flex flex-col gap-3"
+              >
+                <div className="overflow-hidden rounded-lg bg-asphalt">
+                  <img
+                    src={item.cover}
+                    alt=""
+                    className="aspect-portrait w-full origin-center object-cover scale-[1.08] transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-100"
+                  />
+                </div>
+                <div className="px-1">
+                  <p className="font-sans text-work-card leading-none text-ink">
+                    {item.title}
+                  </p>
+                  <p className="mt-1 font-sans text-work-meta leading-work-meta text-ink">
+                    {item.type} ． {item.year}
+                  </p>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
       </main>
     </PageShell>
