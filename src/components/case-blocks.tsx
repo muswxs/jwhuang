@@ -76,7 +76,7 @@ function BlockView({
         </h2>
       );
     case "h3":
-      return <h3 className="font-sans text-lead font-medium text-ink">{block.text}</h3>;
+      return <h3 className="mt-4 font-sans text-lead font-medium text-ink first:mt-0">{block.text}</h3>;
     case "note":
       return <p className="font-mono text-kicker leading-body text-muted">※ {block.text}</p>;
     case "hero":
@@ -178,16 +178,16 @@ type Section = { text: Block[]; media: Block[] };
 function groupSections(blocks: Block[]): Section[] {
   const sections: Section[] = [];
   for (const block of blocks) {
-    const text = TEXT_KINDS.has(block.kind);
     const last = sections[sections.length - 1];
-    if (text) {
-      if (last && last.media.length === 0) last.text.push(block);
-      else sections.push({ text: [block], media: [] });
-    } else if (last) {
-      last.media.push(block);
-    } else {
-      sections.push({ text: [], media: [block] });
+    if (block.kind === "h2" || !last) {
+      sections.push({
+        text: TEXT_KINDS.has(block.kind) ? [block] : [],
+        media: TEXT_KINDS.has(block.kind) ? [] : [block],
+      });
+      continue;
     }
+    if (TEXT_KINDS.has(block.kind)) last.text.push(block);
+    else last.media.push(block);
   }
   return sections;
 }
@@ -243,18 +243,9 @@ export function CaseStudyView({ study }: { study: StudyView }) {
           <div key={i} className="flex flex-col gap-6 md:gap-8">
             {section.text.length > 0 ? (
               <div className="flex flex-col gap-3 md:gap-3.5">
-                {section.text.map((block, j) =>
-                  block.kind === "h2" && j > 0 ? (
-                    <h2
-                      key={j}
-                      className="mt-10 font-display text-title font-bold tracking-tight md:mt-12"
-                    >
-                      {block.text}
-                    </h2>
-                  ) : (
-                    <BlockView key={j} block={block} title={study.title} revise={revise} />
-                  ),
-                )}
+                {section.text.map((block, j) => (
+                  <BlockView key={j} block={block} title={study.title} revise={revise} />
+                ))}
               </div>
             ) : null}
             {section.media.map((block, j) => (
