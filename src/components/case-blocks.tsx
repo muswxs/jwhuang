@@ -75,8 +75,8 @@ function BlockView({
       return (
         <h2
           className={cn(
-            "font-display font-bold tracking-tight",
-            inTextStack ? "mt-8 first:mt-0 text-title" : revise ? "mt-2 text-title" : "mt-6 text-title",
+            "font-display font-bold tracking-tight text-title",
+            inTextStack ? "mt-16 first:mt-0 md:mt-20 first:md:mt-0" : revise ? "mt-2" : "mt-6",
           )}
         >
           {block.text}
@@ -237,7 +237,7 @@ export function CaseStudyView({ study }: { study: StudyView }) {
 
       <Meta study={study} />
 
-      <div className={cn("mt-12 flex flex-col", revise ? "gap-10 md:gap-12" : "gap-8 md:gap-10")}>
+      <div className={cn("mt-16 flex flex-col", revise ? "gap-16 md:gap-24" : "gap-16 md:gap-24")}>
         {groups.map((group, i) =>
           group.text ? (
             <div key={i} className="flex flex-col gap-3 md:gap-3.5">
