@@ -1,14 +1,17 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CaseStudyView } from "@/components/case-blocks";
 import { LiveActivityRevise } from "@/components/live-activity-revise";
+import { AiAssistantRevise } from "@/components/ai-assistant-revise";
 import { PageShell } from "@/components/page-shell";
 import { NotFound } from "@/components/not-found";
 import { getCase, type CaseStudy } from "@/data/cases";
 import { liveActivityV2 } from "@/data/case-live-v2";
+import { aiAssistantV2 } from "@/data/case-ai-v2";
 import { WORK } from "@/data/site";
 
 function resolveCase(slug: string): CaseStudy | undefined {
   if (slug === liveActivityV2.slug) return liveActivityV2 as CaseStudy;
+  if (slug === aiAssistantV2.slug) return aiAssistantV2 as CaseStudy;
   return getCase(slug);
 }
 
@@ -30,11 +33,19 @@ function CasePage() {
   const idx = WORK.findIndex((w) => w.slug === study.slug);
   const prev = idx > 0 ? WORK[idx - 1] : null;
   const next = idx >= 0 && idx < WORK.length - 1 ? WORK[idx + 1] : null;
-  const custom = study.slug === "live-activity-v2";
+
+  const view =
+    study.slug === "live-activity-v2" ? (
+      <LiveActivityRevise />
+    ) : study.slug === "ai-assistant-v2" ? (
+      <AiAssistantRevise />
+    ) : (
+      <CaseStudyView study={study} />
+    );
 
   return (
     <PageShell>
-      {custom ? <LiveActivityRevise /> : <CaseStudyView study={study} />}
+      {view}
       <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 border-t border-line px-5 py-10 md:px-10">
         {prev ? (
           <Link
