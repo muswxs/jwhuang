@@ -57,12 +57,10 @@ function BlockView({
   block,
   title,
   revise,
-  inTextStack,
 }: {
   block: Block;
   title: string;
   revise?: boolean;
-  inTextStack?: boolean;
 }) {
   switch (block.kind) {
     case "p":
@@ -73,12 +71,7 @@ function BlockView({
       );
     case "h2":
       return (
-        <h2
-          className={cn(
-            "font-display font-bold tracking-tight text-title",
-            inTextStack ? "mt-16 first:mt-0 md:mt-20 first:md:mt-0" : revise ? "mt-2" : "mt-6",
-          )}
-        >
+        <h2 className="font-display text-title font-bold tracking-tight">
           {block.text}
         </h2>
       );
@@ -180,20 +173,28 @@ function BlockView({
   }
 }
 
-function groupBlocks(blocks: Block[]) {
-  const groups: Array<{ text: boolean; items: Block[] }> = [];
+type Section = { text: Block[]; media: Block[] };
+
+function groupSections(blocks: Block[]): Section[] {
+  const sections: Section[] = [];
   for (const block of blocks) {
     const text = TEXT_KINDS.has(block.kind);
-    const last = groups[groups.length - 1];
-    if (text && last?.text) last.items.push(block);
-    else groups.push({ text, items: [block] });
+    const last = sections[sections.length - 1];
+    if (text) {
+      if (last && last.media.length === 0) last.text.push(block);
+      else sections.push({ text: [block], media: [] });
+    } else if (last) {
+      last.media.push(block);
+    } else {
+      sections.push({ text: [], media: [block] });
+    }
   }
-  return groups;
+  return sections;
 }
 
 export function CaseStudyView({ study }: { study: StudyView }) {
   const revise = study.variant === "revise";
-  const groups = groupBlocks(study.blocks);
+  const sections = groupSections(study.blocks);
 
   return (
     <article className="mx-auto max-w-5xl px-5 pb-24 pt-4 md:px-10">
@@ -237,26 +238,30 @@ export function CaseStudyView({ study }: { study: StudyView }) {
 
       <Meta study={study} />
 
-      <div className={cn("mt-16 flex flex-col", revise ? "gap-16 md:gap-24" : "gap-16 md:gap-24")}>
-        {groups.map((group, i) =>
-          group.text ? (
-            <div key={i} className="flex flex-col gap-3 md:gap-3.5">
-              {group.items.map((block, j) => (
-                <BlockView
-                  key={j}
-                  block={block}
-                  title={study.title}
-                  revise={revise}
-                  inTextStack
-                />
-              ))}
-            </div>
-          ) : (
-            group.items.map((block, j) => (
-              <BlockView key={`${i}-${j}`} block={block} title={study.title} revise={revise} />
-            ))
-          ),
-        )}
+      <div className="mt-16 flex flex-col gap-20 md:gap-28">
+        {sections.map((section, i) => (
+          <div key={i} className="flex flex-col gap-6 md:gap-8">
+            {section.text.length > 0 ? (
+              <div className="flex flex-col gap-3 md:gap-3.5">
+                {section.text.map((block, j) =>
+                  block.kind === "h2" && j > 0 ? (
+                    <h2
+                      key={j}
+                      className="mt-10 font-display text-title font-bold tracking-tight md:mt-12"
+                    >
+                      {block.text}
+                    </h2>
+                  ) : (
+                    <BlockView key={j} block={block} title={study.title} revise={revise} />
+                  ),
+                )}
+              </div>
+            ) : null}
+            {section.media.map((block, j) => (
+              <BlockView key={`m-${j}`} block={block} title={study.title} revise={revise} />
+            ))}
+          </div>
+        ))}
       </div>
     </article>
   );
