@@ -3,6 +3,8 @@ import { cn } from "@/lib/cn";
 
 type StudyView = CaseStudy & { variant?: "revise" };
 
+const TEXT_KINDS = new Set<Block["kind"]>(["p", "h2", "h3", "note"]);
+
 function Meta({ study }: { study: CaseStudy }) {
   const items = [
     ["Product", study.meta.product],
@@ -55,10 +57,12 @@ function BlockView({
   block,
   title,
   revise,
+  inTextStack,
 }: {
   block: Block;
   title: string;
   revise?: boolean;
+  inTextStack?: boolean;
 }) {
   switch (block.kind) {
     case "p":
@@ -72,7 +76,7 @@ function BlockView({
         <h2
           className={cn(
             "font-display font-bold tracking-tight",
-            revise ? "mt-2 text-title" : "mt-6 text-title",
+            inTextStack ? "mt-8 first:mt-0 text-title" : revise ? "mt-2 text-title" : "mt-6 text-title",
           )}
         >
           {block.text}
@@ -176,8 +180,20 @@ function BlockView({
   }
 }
 
+function groupBlocks(blocks: Block[]) {
+  const groups: Array<{ text: boolean; items: Block[] }> = [];
+  for (const block of blocks) {
+    const text = TEXT_KINDS.has(block.kind);
+    const last = groups[groups.length - 1];
+    if (text && last?.text) last.items.push(block);
+    else groups.push({ text, items: [block] });
+  }
+  return groups;
+}
+
 export function CaseStudyView({ study }: { study: StudyView }) {
   const revise = study.variant === "revise";
+  const groups = groupBlocks(study.blocks);
 
   return (
     <article className="mx-auto max-w-5xl px-5 pb-24 pt-4 md:px-10">
@@ -221,10 +237,26 @@ export function CaseStudyView({ study }: { study: StudyView }) {
 
       <Meta study={study} />
 
-      <div className={cn("mt-12 flex flex-col", revise ? "gap-12 md:gap-16" : "gap-10 md:gap-14")}>
-        {study.blocks.map((block, i) => (
-          <BlockView key={i} block={block} title={study.title} revise={revise} />
-        ))}
+      <div className={cn("mt-12 flex flex-col", revise ? "gap-10 md:gap-12" : "gap-8 md:gap-10")}>
+        {groups.map((group, i) =>
+          group.text ? (
+            <div key={i} className="flex flex-col gap-3 md:gap-3.5">
+              {group.items.map((block, j) => (
+                <BlockView
+                  key={j}
+                  block={block}
+                  title={study.title}
+                  revise={revise}
+                  inTextStack
+                />
+              ))}
+            </div>
+          ) : (
+            group.items.map((block, j) => (
+              <BlockView key={`${i}-${j}`} block={block} title={study.title} revise={revise} />
+            ))
+          ),
+        )}
       </div>
     </article>
   );
